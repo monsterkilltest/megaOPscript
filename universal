@@ -1,14 +1,26 @@
--- Clean Key System with bigger hint
+--[==[ Key System - Fixed for loadstring ]==]
 local player = game.Players.LocalPlayer
+if not player then
+    warn("LocalPlayer not found")
+    return
+end
+
 local gui = Instance.new("ScreenGui")
-gui.Name = "CleanKeySystem"
-gui.Parent = player:WaitForChild("PlayerGui")
+gui.Name = "KeySystemGUI"
 gui.ResetOnSpawn = false
+
+-- Дожидаемся появления PlayerGui
+local playerGui = player:WaitForChild("PlayerGui", 5)
+if not playerGui then
+    warn("PlayerGui not found after 5 sec")
+    return
+end
+gui.Parent = playerGui
 
 local correctKey = "MySecretKey123"
 local linkToCopy = "https://roblox.com.ge/communities/9724508409/"
 
--- Main frame (высота 270, чтобы подсказка влезла)
+-- Main frame
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 320, 0, 270)
 frame.Position = UDim2.new(0.5, -160, 0.5, -135)
@@ -94,7 +106,7 @@ message.TextSize = 12
 message.TextXAlignment = Enum.TextXAlignment.Center
 message.Parent = frame
 
--- HINT: увеличенная подсказка (размер 14, светлый цвет)
+-- Hint
 local hint = Instance.new("TextLabel")
 hint.Size = UDim2.new(0.9, 0, 0, 30)
 hint.Position = UDim2.new(0.05, 0, 0.86, 0)
@@ -132,7 +144,6 @@ copyBtn.MouseButton1Click:Connect(function()
     message.Text = ""
 end)
 
--- Hover effects
 copyBtn.MouseEnter:Connect(function()
     copyBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 110)
 end)
